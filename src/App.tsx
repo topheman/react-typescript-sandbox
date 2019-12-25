@@ -1,4 +1,4 @@
-import React, { useState, createRef } from "react";
+import React, { useState, useEffect, useRef, createRef } from "react";
 import "./App.css";
 import Image from "./Image";
 
@@ -6,22 +6,44 @@ const people = ["Alice", "Bob", "John", "Liza"];
 
 const App: React.FC = () => {
   const [user, setUser] = useState<string | null>(null);
-  const primaryRef = createRef<HTMLImageElement>();
-  const peopleRefs = people.reduce<{
-    [key: string]: React.Ref<HTMLImageElement>;
-  }>((acc, user) => {
-    acc[user] = createRef<HTMLImageElement>();
-    return acc;
-  }, {});
+  const [infos, setInfos] = useState<any>({});
+
+  const refs = useRef(
+    [null, ...people].map(() => createRef<HTMLImageElement>())
+  );
+
+  useEffect(() => {
+    console.log("refs", refs);
+    const images = [null, ...people].map((user, index) => ({
+      name: user,
+      ...refs?.current?.[index]?.current?.getBoundingClientRect().toJSON()
+    }));
+    console.log("refs", refs, "infos", images);
+    setInfos({
+      scrollX: window.scrollX,
+      scrollY: window.scrollY,
+      list: images
+    });
+  }, [user]);
+
   return (
     <div>
-      <div>
-        {JSON.stringify({
-          user
-        })}
-      </div>
+      <pre style={{ position: "fixed", fontSize: "0.76em" }}>
+        {JSON.stringify(
+          {
+            user,
+            ...infos
+          },
+          null,
+          "  "
+        )}
+      </pre>
       <p>
-        <Image variant="large" onClick={() => setUser(null)} ref={primaryRef} />
+        <Image
+          variant="large"
+          onClick={() => setUser(null)}
+          ref={refs.current[0]}
+        />
       </p>
       <ul style={{ textAlign: "center" }}>
         {people.map((user, index) => (
@@ -29,7 +51,7 @@ const App: React.FC = () => {
             <Image
               key={user}
               onClick={() => setUser(user)}
-              ref={peopleRefs[user]}
+              ref={refs.current[1 + index]}
             />
             <p style={{ textAlign: "center" }}>{user}</p>
           </li>
