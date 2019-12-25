@@ -8,11 +8,13 @@ const App: React.FC = () => {
   const [user, setUser] = useState<string | null>(null);
   const [infos, setInfos] = useState<any>({});
 
+  // dynamically create refs
   const refs = useRef(
     [null, ...people].map(() => createRef<HTMLImageElement>())
   );
 
-  useEffect(() => {
+  // process images size based on refs + scrollY/scrollX
+  function mount() {
     console.log("refs", refs);
     const images = [null, ...people].map((user, index) => ({
       name: user,
@@ -24,7 +26,15 @@ const App: React.FC = () => {
       scrollY: window.scrollY,
       list: images
     });
-  }, [user]);
+  }
+
+  useEffect(mount, [user]);
+
+  // make sure to run mount on load, once every images are loaded
+  // to ensure correct computation
+  useEffect(() => {
+    window.addEventListener("load", mount);
+  }, []);
 
   return (
     <div>
