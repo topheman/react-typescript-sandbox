@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useTransition, animated } from "react-spring";
 
-import "./App.css";
 import Image from "./Image";
 
 const originalUsers = ["Alice", "Bob", "John", "Liza"];
 
-const App: React.FC = () => {
+const BasicTransition: React.FC = () => {
   const [users, setUsers] = useState(originalUsers);
 
   const transitions = useTransition(users, item => item, {
@@ -47,4 +46,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default BasicTransition;
