@@ -3,10 +3,21 @@ import { useTransition, animated } from "react-spring";
 
 import Image from "./Image";
 
-const originalUsers = ["Alice", "Bob", "John", "Liza"];
+const ALL_USERS = [
+  "Alice",
+  "Bob",
+  "John",
+  "Liza",
+  "Mike",
+  "Mary",
+  "Tom",
+  "Sarah",
+  "Mark",
+  "Nancy"
+];
 
 const BasicTransition: React.FC = () => {
-  const [users, setUsers] = useState(originalUsers);
+  const [users, setUsers] = useState(ALL_USERS.slice(0, 4));
 
   const transitions = useTransition(users, item => item, {
     from: { transform: "translate(500px, 0px)", opacity: 0 },
@@ -19,8 +30,13 @@ const BasicTransition: React.FC = () => {
       <p>
         <button
           type="button"
+          disabled={users.length === ALL_USERS.length}
           onClick={() =>
-            setUsers(users => [`foo${new Date().toISOString()}`, ...users])
+            setUsers(users => [
+              ALL_USERS.find(user => !users.includes(user)) ||
+                new Date().toISOString(),
+              ...users
+            ])
           }
         >
           Add user
@@ -33,7 +49,7 @@ const BasicTransition: React.FC = () => {
             style={{ listStyle: "none", cursor: "pointer", ...props }}
             key={key}
             onClick={() => {
-              console.log("click", { key, item });
+              console.log("click", { key, item, props });
               setUsers(users => users.filter(user => user !== item));
             }}
           >
