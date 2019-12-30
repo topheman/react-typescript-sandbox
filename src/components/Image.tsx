@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 
 type IProps = {
   variant?: "medium" | "large";
-} & { [key: string]: any };
+} & React.ImgHTMLAttributes<HTMLImageElement>;
 
 const Image = forwardRef(
   (
