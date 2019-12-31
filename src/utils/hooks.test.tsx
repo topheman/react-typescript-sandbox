@@ -33,6 +33,13 @@ describe("utils/hooks/useManageItems", () => {
       "tutu"
     ]);
   });
+  it("[Defaults] should handle any type of list - example number[]", () => {
+    const { result } = renderHook(() =>
+      useManageItems({ items: [1, 2, 3, 5, 8, 13, 21] })
+    );
+    // hover `result.current.items` and check the type for number[] (it should be inferred)
+    expect(result.current.items).toStrictEqual([1, 2, 3, 5]);
+  });
   it("`addItem()` should add the next item in the list at the top", () => {
     const { result } = renderHook(() =>
       useManageItems({ items: DEFAULT_ORIGINAL_ITEMS })
