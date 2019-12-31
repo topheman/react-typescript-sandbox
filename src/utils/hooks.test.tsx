@@ -1,10 +1,12 @@
 import { renderHook, act } from "@testing-library/react-hooks";
 
-import { useManageItems } from "./hooks";
+import { useManageItems, DEFAULT_ORIGINAL_ITEMS } from "./hooks";
 
 describe("utils/hooks/useManageItems", () => {
   it("[Defaults] should return the default list, truncated at 4 items", () => {
-    const { result } = renderHook(() => useManageItems());
+    const { result } = renderHook(() =>
+      useManageItems({ items: DEFAULT_ORIGINAL_ITEMS })
+    );
     expect(result.current.items).toStrictEqual([
       "Alice",
       "Bob",
@@ -13,7 +15,9 @@ describe("utils/hooks/useManageItems", () => {
     ]);
   });
   it("[Defaults] {countStart: 2}, should return 2 items from default list", () => {
-    const { result } = renderHook(() => useManageItems({ countStart: 2 }));
+    const { result } = renderHook(() =>
+      useManageItems({ items: DEFAULT_ORIGINAL_ITEMS, countStart: 2 })
+    );
     expect(result.current.items).toStrictEqual(["Alice", "Bob"]);
   });
   it("[Defaults] {items: [...]} should return a truncated version of the overridden items list", () => {
@@ -30,7 +34,9 @@ describe("utils/hooks/useManageItems", () => {
     ]);
   });
   it("`addItem()` should add the next item in the list at the top", () => {
-    const { result } = renderHook(() => useManageItems());
+    const { result } = renderHook(() =>
+      useManageItems({ items: DEFAULT_ORIGINAL_ITEMS })
+    );
     expect(result.current.items).toStrictEqual([
       "Alice",
       "Bob",
@@ -49,7 +55,9 @@ describe("utils/hooks/useManageItems", () => {
     ]);
   });
   it("`removeItem(item)` should remove an item", () => {
-    const { result } = renderHook(() => useManageItems());
+    const { result } = renderHook(() =>
+      useManageItems({ items: DEFAULT_ORIGINAL_ITEMS })
+    );
     expect(result.current.items).toStrictEqual([
       "Alice",
       "Bob",
