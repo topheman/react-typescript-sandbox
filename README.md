@@ -1,4 +1,17 @@
-# react-spring-experiments
+# react-typescript-sandbox
+
+This project is a sandbox where I train on TypeScript (with React).
+
+This is a work in progress, in the next weeks, I will add:
+
+- better documentation
+- online demo
+- CI
+- ...
+
+Any basic stuff (such as project setup) I add I will also add it to [topheman/react-app-ts-template](https://github.com/topheman/react-app-ts-template).
+
+---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
