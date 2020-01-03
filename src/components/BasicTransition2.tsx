@@ -11,7 +11,8 @@ const BasicTransition2: React.FC = () => {
 
   const transitions = useTransition(items, item => item, {
     from: { transform: "translate(500px, 0px)", opacity: 0, innerHeight: 0 },
-    enter: { transform: "translate(0px, 0px)", opacity: 1, innerHeight: 220 },
+    initial: { transform: "translate(500px, 0px)", opacity: 0, innerHeight: 1 },
+    enter: { transform: "translate(0px, 0px)", opacity: 1, innerHeight: 1 },
     leave: { transform: "translate(-500px, 0px)", opacity: 0, innerHeight: 0 }
   });
 
@@ -30,7 +31,12 @@ const BasicTransition2: React.FC = () => {
       <ul style={{ textAlign: "center", paddingLeft: 0 }}>
         {transitions.map(({ item, props: { innerHeight, ...rest }, key }) => (
           <animated.li
-            style={{ listStyle: "none", cursor: "pointer", ...rest }}
+            style={{
+              listStyle: "none",
+              cursor: "pointer",
+              height: innerHeight.to(height => `${height * 229}px`),
+              ...rest
+            }}
             key={key}
             onClick={() => {
               console.log("click", {
@@ -41,9 +47,7 @@ const BasicTransition2: React.FC = () => {
               removeItem(item);
             }}
           >
-            <animated.div style={{ height: innerHeight }}>
-              <Image />
-            </animated.div>
+            <Image />
             <p style={{ textAlign: "center" }}>{item}</p>
           </animated.li>
         ))}
